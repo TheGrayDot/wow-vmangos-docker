@@ -1,0 +1,36 @@
+FROM ubuntu:22.04
+
+# Install vmangos requirements
+RUN apt-get update && apt-get install -y \
+  build-essential \
+  cmake \
+  git \
+  libace-dev \
+  libmysql++-dev \
+  openssl \
+  libssl-dev \
+  libtbb-dev \
+  zlib1g-dev \
+  && rm -rf /var/lib/apt/lists/*
+
+# Clone vmangos repo
+WORKDIR /vmangos
+RUN git clone -b development https://github.com/vmangos/core.git core
+
+# Make folder structure for compiling
+WORKDIR /vmangos/core
+RUN mkdir build; exit 0
+RUN mkdir _install; exit 0
+
+# Compile vmangos core
+WORKDIR /vmangos/core/build
+RUN cmake ../ \
+  -DCMAKE_INSTALL_PREFIX=../_install \
+  -DWITH_WARNINGS=0 \
+  -DSUPPORTED_CLIENT_BUILD=5875 \
+  -DUSE_EXTRACTORS=1
+RUN make -j2
+RUN make install
+
+# Keep the container running
+CMD tail -f /dev/null
