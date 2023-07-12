@@ -1,0 +1,21 @@
+version: 2
+
+updates:
+
+  - package-ecosystem: docker
+    directory: /core
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 0  # only security updates
+
+  - package-ecosystem: docker
+    directory: /db
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 0  # only security updates
+
+  - package-ecosystem: docker
+    directory: /extractors
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 0  # only security updates
