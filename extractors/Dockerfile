@@ -30,4 +30,5 @@ RUN cmake .. \
 RUN make -j4
 RUN make install
 
+# Keep the container running
 CMD tail -f /dev/null

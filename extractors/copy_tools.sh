@@ -2,11 +2,8 @@
 
 
 files=(
-    ExtractResources.sh
     MoveMapGen
-    MoveMapGen.sh
     ad
-    offmesh.txt
     vmap_assembler
     vmap_extractor
 )
