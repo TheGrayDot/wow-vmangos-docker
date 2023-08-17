@@ -3,19 +3,25 @@ version: 2
 updates:
 
   - package-ecosystem: docker
-    directory: /core
+    directory: /prepare/base
     schedule:
       interval: weekly
     open-pull-requests-limit: 0  # only security updates
 
   - package-ecosystem: docker
-    directory: /db
+    directory: /prepare/resources
     schedule:
       interval: weekly
     open-pull-requests-limit: 0  # only security updates
 
   - package-ecosystem: docker
-    directory: /extractors
+    directory: /run/mangosd
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 0  # only security updates
+
+  - package-ecosystem: docker
+    directory: /run/realmd
     schedule:
       interval: weekly
     open-pull-requests-limit: 0  # only security updates

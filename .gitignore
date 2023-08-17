@@ -1,1 +1,6 @@
-./extractors/tools
+volumes/mysql/*
+volumes/resources/client_data/*
+volumes/resources/db/*
+volumes/resources/extractors/*
+volumes/resources/mangosd/*
+volumes/resources/realmd/*

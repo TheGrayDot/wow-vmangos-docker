@@ -2,12 +2,75 @@ version: '3'
 
 services:
 
-  core:
-    container_name: vmangos_core
-    image: ubuntu:22.04
-    restart: no
-    build:
-      context: ./core
-      dockerfile: Dockerfile-run
+  db:
+    container_name: vmangos_db
+    image: mysql:5.6
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - 3306:3306
+    command: --max_allowed_packet=128M
+    healthcheck:
+      # Check for file created by ./run/db/init/init2.sh
+      test: bash -c "[ -f /var/lib/mysql/healthy ]"
+      interval: 5s
+      retries: 20
     volumes:
-      - ./volumes/resources:/vmangos/resources
+      - ./volumes/mysql:/var/lib/mysql
+      # - ./run/db/init1.sql:/docker-entrypoint-initdb.d/init1.sql
+      # - ./run/db/init2.sh:/docker-entrypoint-initdb.d/init2.sh
+      # - ./volumes/resources/db:/db:ro
+    networks:
+      - backend
+
+  mangosd:
+    container_name: vmangos_mangosd
+    # depends_on:
+    #   db:
+    #     condition: service_healthy
+    restart: unless-stopped
+    environment:
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+    build:
+      context: ./run/mangosd
+      dockerfile: Dockerfile
+      args:
+        VMANGOS_COMMIT_ID: ${VMANGOS_COMMIT_ID}
+    ports:
+      - 8085:8085
+    volumes:
+      - ./volumes/resources/mangosd:/vmangos/mangosd
+      - ./volumes/resources/client_data:/vmangos/client_data:ro
+    networks:
+      - frontend
+      - backend
+
+  realmd:
+    container_name: vmangos_realmd
+    # depends_on:
+    #   db:
+    #     condition: service_healthy
+    restart: unless-stopped
+    environment:
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+    build:
+      context: ./run/realmd
+      dockerfile: Dockerfile
+      args:
+        VMANGOS_COMMIT_ID: ${VMANGOS_COMMIT_ID}
+    ports:
+      - 3724:3724
+    volumes:
+      - ./volumes/resources/realmd:/vmangos/realmd
+    networks:
+      - frontend
+      - backend
+
+networks:
+  frontend:
+  backend:
