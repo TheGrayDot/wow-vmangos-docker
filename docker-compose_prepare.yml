@@ -5,8 +5,8 @@ services:
   # Build base image for building and running vmangos (mangosd/realmd)
   # Uses Ubuntu:22.04 Docker image
   base:
-    container_name: vmangos_base
-    image: vmangos_base:${VMANGOS_COMMIT_ID}
+    container_name: vmangos-base
+    image: vmangos-base:${VMANGOS_COMMIT_ID}
     build:
       context: ./prepare/base
       dockerfile: Dockerfile
@@ -15,7 +15,7 @@ services:
   # Build mangosd, realmd and client data extraction execuatbles
   # Extract MySQL base and migrations SQL dumps
   resources:
-    container_name: vmangos_resources
+    container_name: vmangos-resources
     depends_on:
       - base
     environment:
@@ -28,5 +28,7 @@ services:
       dockerfile: Dockerfile
       args:
         VMANGOS_COMMIT_ID: ${VMANGOS_COMMIT_ID}
+        VMANGOS_PATCH: ${VMANGOS_PATCH}
     volumes:
       - ./volumes/resources:/resources
+      - ./volumes/client:/client

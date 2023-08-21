@@ -21,16 +21,16 @@ services:
     volumes:
       - ./volumes/mysql:/var/lib/mysql
       # - ./run/db/init1.sql:/docker-entrypoint-initdb.d/init1.sql
-      # - ./run/db/init2.sh:/docker-entrypoint-initdb.d/init2.sh
-      # - ./volumes/resources/db:/db:ro
+      - ./run/db/init.sh:/docker-entrypoint-initdb.d/init.sh
+      - ./volumes/resources/db:/db:ro
     networks:
       - backend
 
   mangosd:
     container_name: vmangos_mangosd
-    # depends_on:
-    #   db:
-    #     condition: service_healthy
+    depends_on:
+      db:
+        condition: service_healthy
     restart: unless-stopped
     environment:
       DB_USER: ${DB_USER}
@@ -43,17 +43,17 @@ services:
     ports:
       - 8085:8085
     volumes:
-      - ./volumes/resources/mangosd:/vmangos/mangosd
-      - ./volumes/resources/client_data:/vmangos/client_data:ro
+      - ./volumes/resources/mangosd:/vmangos/bin
+      - ./volumes/resources/client_data:/vmangos/client_data/:ro
     networks:
       - frontend
       - backend
 
   realmd:
     container_name: vmangos_realmd
-    # depends_on:
-    #   db:
-    #     condition: service_healthy
+    depends_on:
+      db:
+        condition: service_healthy
     restart: unless-stopped
     environment:
       DB_USER: ${DB_USER}
@@ -66,7 +66,7 @@ services:
     ports:
       - 3724:3724
     volumes:
-      - ./volumes/resources/realmd:/vmangos/realmd
+      - ./volumes/resources/realmd:/vmangos/bin
     networks:
       - frontend
       - backend

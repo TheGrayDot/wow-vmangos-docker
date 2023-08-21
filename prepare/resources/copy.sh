@@ -43,9 +43,9 @@ cp "${SOURCE_DIR_SQL}/migrations/world_db_updates.sql" "${TARGET_DIR_SQL}/world_
 # Copy mangosd files
 echo "[*] Copying mangosd files..."
 cp "${SOURCE_DIR_INSTALL}/bin/mangosd" "${TARGET_DIR_MANGOSD}/mangosd"
-cp "${SOURCE_DIR_INSTALL}/etc/mangosd.conf.dist" "${TARGET_DIR_MANGOSD}/mangosd.conf"
+# cp "${SOURCE_DIR_INSTALL}/etc/mangosd.conf.dist" "${TARGET_DIR_MANGOSD}/mangosd.conf"
 
 # Copy realmd files
 echo "[*] Copying realmd files..."
 cp "${SOURCE_DIR_INSTALL}/bin/realmd" "${TARGET_DIR_REALMD}/realmd"
-cp "${SOURCE_DIR_INSTALL}/etc/realmd.conf.dist" "${TARGET_DIR_REALMD}/realmd.conf"
+# cp "${SOURCE_DIR_INSTALL}/etc/realmd.conf.dist" "${TARGET_DIR_REALMD}/realmd.conf"
