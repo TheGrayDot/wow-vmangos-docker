@@ -13,7 +13,8 @@ services:
 
   # Using base image, build vmangos project including:
   # Build mangosd, realmd and client data extraction execuatbles
-  # Extract MySQL base and migrations SQL dumps
+  # Also, extract MySQL base and migrations SQL dumps
+  # Save all data to the ./volumes/resources directory
   resources:
     container_name: vmangos-resources
     image: vmangos-resources:${VMANGOS_COMMIT_ID}

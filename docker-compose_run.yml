@@ -3,8 +3,8 @@ version: '3'
 services:
 
   db:
-    container_name: vmangos_db
-    image: mysql:5.6
+    container_name: vmangos-db
+    image: vmangos-db:${VMANGOS_COMMIT_ID}
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -12,22 +12,26 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
     ports:
       - 3306:3306
+    # Increase max packet size, as some queries are large
     command: --max_allowed_packet=128M
     healthcheck:
-      # Check for file created by ./run/db/init/init2.sh
+      # Custom healthcheck using file created by ./run/db/init.sh
       test: bash -c "[ -f /var/lib/mysql/healthy ]"
       interval: 5s
       retries: 20
     volumes:
+      # MySQL data volume for persistence
       - ./volumes/mysql:/var/lib/mysql
-      # - ./run/db/init1.sql:/docker-entrypoint-initdb.d/init1.sql
+      # MySQL init script to create databases and insert data
       - ./run/db/init.sh:/docker-entrypoint-initdb.d/init.sh
+      # Read only volume of database dump files
       - ./volumes/resources/db:/db:ro
     networks:
       - backend
 
   mangosd:
-    container_name: vmangos_mangosd
+    container_name: vmangos-mangosd
+    image: vmangos-mangosd:${VMANGOS_COMMIT_ID}
     depends_on:
       db:
         condition: service_healthy
@@ -43,14 +47,17 @@ services:
     ports:
       - 8085:8085
     volumes:
+      # Copy over the mangosd binary
       - ./volumes/resources/mangosd:/vmangos/bin
+      # Location of extracted client data (maps, mmaps etc.)
       - ./volumes/resources/client_data:/vmangos/client_data/:ro
     networks:
       - frontend
       - backend
 
   realmd:
-    container_name: vmangos_realmd
+    container_name: vmangos-realmd
+    image: vmangos-realmd:${VMANGOS_COMMIT_ID}
     depends_on:
       db:
         condition: service_healthy
@@ -66,6 +73,7 @@ services:
     ports:
       - 3724:3724
     volumes:
+      # Copy over the realmd binary
       - ./volumes/resources/realmd:/vmangos/bin
     networks:
       - frontend
