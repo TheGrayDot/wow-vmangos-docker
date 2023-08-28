@@ -15,7 +15,7 @@ services:
   # Build mangosd, realmd and client data extraction execuatbles
   # Extract MySQL base and migrations SQL dumps
   resources:
-    container_name: vmangos-resources
+    container_name: vmangos-resources:${VMANGOS_COMMIT_ID}
     depends_on:
       - base
     environment:
@@ -23,6 +23,7 @@ services:
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
       VMANGOS_COMMIT_ID: ${VMANGOS_COMMIT_ID}
+      VMANGOS_PATCH: ${VMANGOS_PATCH}
     build:
       context: ./prepare/resources
       dockerfile: Dockerfile

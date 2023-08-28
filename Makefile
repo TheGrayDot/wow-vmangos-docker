@@ -8,7 +8,7 @@ prepare_stop:
 
 prepare_clean:
 	docker compose --file docker-compose_prepare.yml down \
-	docker image rm wow-vmangos-docker-resources:latest
+	docker image rm wow-vmangos-docker-resources:${VMANGOS_COMMIT_ID}
 
 prepare_clean_volumes:
 	sudo rm -rf ./volumes/resources/db/*; \
@@ -17,10 +17,16 @@ prepare_clean_volumes:
 	sudo rm -rf ./volumes/resources/realmd/*
 
 prepare_base_build:
-	docker build -t vmangos-base:${VMANGOS_COMMIT_ID} -f ./prepare/base/Dockerfile .
+	docker build -t vmangos-base:${VMANGOS_COMMIT_ID} \
+	-f ./prepare/base/Dockerfile \
+	./prepare/base
 
 prepare_resources_build:
-	docker build -t vmangos-resources -f ./prepare/resources/Dockerfile .
+	docker build -t vmangos-resources:${VMANGOS_COMMIT_ID} \
+	--build-arg VMANGOS_COMMIT_ID=${VMANGOS_COMMIT_ID} \
+	--build-arg VMANGOS_PATCH=${VMANGOS_PATCH} \
+	-f ./prepare/resources/Dockerfile \
+	./prepare/resources
 
 prepare_resources_run:
 	docker run --name vmangos-resources vmangos-resources

@@ -1,7 +1,9 @@
 ARG VMANGOS_COMMIT_ID
-ARG VMANGOS_PATCH
 
 FROM vmangos-base:${VMANGOS_COMMIT_ID}
+
+ARG VMANGOS_COMMIT_ID
+ARG VMANGOS_PATCH
 
 # Install vmangos requirements
 RUN apt-get update && apt-get install -y \
@@ -27,7 +29,7 @@ WORKDIR /vmangos
 RUN git clone -b development https://github.com/vmangos/core.git core; exit 0
 # Uncomment line, and add commit hash to build specific commit
 WORKDIR /vmangos/core
-RUN git checkout 8a7035261655236cef6b2bfea1be7f2ceb229c6d
+RUN git checkout ${VMANGOS_COMMIT_ID}
 
 # Make folder structure for compiling
 WORKDIR /vmangos/core
@@ -37,10 +39,10 @@ RUN mkdir _install; exit 0
 # Compile vmangos core
 WORKDIR /vmangos/core/build
 RUN cmake ../ \
-  -DCMAKE_INSTALL_PREFIX=../_install \
-  -DWITH_WARNINGS=0 \
-  -DSUPPORTED_CLIENT_BUILD=${VMANGOS_PATCH} \
-  -DUSE_EXTRACTORS=1
+    -DCMAKE_INSTALL_PREFIX=../_install \
+    -DWITH_WARNINGS=0 \
+    -DSUPPORTED_CLIENT_BUILD=${VMANGOS_PATCH} \
+    -DUSE_EXTRACTORS=1
 RUN make -j2
 RUN make install
 
