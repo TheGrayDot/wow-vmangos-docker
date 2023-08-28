@@ -4,6 +4,7 @@ FROM vmangos-base:${VMANGOS_COMMIT_ID}
 
 ARG VMANGOS_COMMIT_ID
 ARG VMANGOS_PATCH
+ARG PREPARE_CORES
 
 # Install vmangos requirements
 RUN apt-get update && apt-get install -y \
@@ -43,7 +44,7 @@ RUN cmake ../ \
     -DWITH_WARNINGS=0 \
     -DSUPPORTED_CLIENT_BUILD=${VMANGOS_PATCH} \
     -DUSE_EXTRACTORS=1
-RUN make -j2
+RUN make -j${PREPARE_CORES}
 RUN make install
 
 # Prepare database
@@ -53,7 +54,7 @@ RUN sh merge.sh
 # Copy data copy script and run
 WORKDIR /vmangos
 COPY --chmod=755 ./copy.sh .
-RUN bash ./copy.sh
+CMD bash ./copy.sh
 
 # Keep the container running for troubleshooting
 # CMD tail -f /dev/null

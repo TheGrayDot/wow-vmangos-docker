@@ -33,11 +33,12 @@ prepare_resources_build:
 	docker build -t vmangos-resources:${VMANGOS_COMMIT_ID} \
 	--build-arg VMANGOS_COMMIT_ID=${VMANGOS_COMMIT_ID} \
 	--build-arg VMANGOS_PATCH=${VMANGOS_PATCH} \
+	--build-arg PREPARE_CORES=${PREPARE_CORES} \
 	-f ./prepare/resources/Dockerfile \
 	./prepare/resources
 
 prepare_resources_run:
-	docker run --name vmangos-resources vmangos-resources
+	docker run --name vmangos-resources:${VMANGOS_COMMIT_ID} vmangos-resources
 
 # Stage 2: "run"
 # Docker environment for "running" a server
