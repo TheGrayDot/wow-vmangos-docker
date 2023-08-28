@@ -15,7 +15,8 @@ services:
   # Build mangosd, realmd and client data extraction execuatbles
   # Extract MySQL base and migrations SQL dumps
   resources:
-    container_name: vmangos-resources:${VMANGOS_COMMIT_ID}
+    container_name: vmangos-resources
+    image: vmangos-resources:${VMANGOS_COMMIT_ID}
     depends_on:
       - base
     environment:
