@@ -1,46 +1,37 @@
 include .env
 
-# Stage 1: "prepare"
-# Docker environment for "preparing" resources for running a server
+# Stage 0: "base" image for reuse
+base_image:
+	docker build -t vmangos-base:${VMANGOS_COMMIT_ID} ./base
 
-# Compose environment that builds a "base" image
-# Then uses the "base" image to compile vmangos and prepare MySQL data
-prepare_build:
-	docker compose --file docker-compose_prepare.yml up --build
-
-prepare_stop:
-	docker compose --file docker-compose_prepare.yml stop
-
-prepare_clean:
-	docker compose --file docker-compose_prepare.yml down \
-	docker image rm vmangos-resources:${VMANGOS_COMMIT_ID}
-
-prepare_clean_volumes:
-	sudo rm -rf ./volumes/resources/db/*; \
-	sudo rm -rf ./volumes/resources/extractors/*; \
-	sudo rm -rf ./volumes/resources/mangosd/*; \
-	sudo rm -rf ./volumes/resources/realmd/*
-
-# Only build the "base" preparation image
-prepare_base_build:
-	docker build -t vmangos-base:${VMANGOS_COMMIT_ID} \
-	-f ./prepare/base/Dockerfile \
-	./prepare/base
-
-# Only build the "resources" image, only for testing
-# This has no volume mounted, and manual extraction needed
-prepare_resources_build:
+# Stage 1: "prepare" resources for running a server
+prepare_resources:
 	docker build -t vmangos-resources:${VMANGOS_COMMIT_ID} \
 	--build-arg VMANGOS_COMMIT_ID=${VMANGOS_COMMIT_ID} \
 	--build-arg VMANGOS_PATCH=${VMANGOS_PATCH} \
 	--build-arg PREPARE_CORES=${PREPARE_CORES} \
-	-f ./prepare/resources/Dockerfile \
-	./prepare/resources
+	./prepare \
+	&& \
+	docker run --name vmangos-resources \
+	--volume ./volumes/db:/resources/db \
+	--volume ./volumes/extractors:/resources/extractors \
+	--volume ./volumes/mangosd:/resources/mangosd \
+	--volume ./volumes/realmd:/resources/realmd \
+	vmangos-resources:${VMANGOS_COMMIT_ID}
 
-prepare_resources_run:
-	docker run --name vmangos-resources:${VMANGOS_COMMIT_ID} vmangos-resources
+# Stage 2: "extract" client data
+extract_client_data:
+	docker build -t vmangos-extractors:${VMANGOS_COMMIT_ID} \
+	--build-arg VMANGOS_COMMIT_ID=${VMANGOS_COMMIT_ID} \
+	./extract \
+	&& \
+	docker run --name vmangos-extractors \
+	--volume ./volumes/client_files:/resources/client_files \
+	--volume ./volumes/client_data:/resources/client_data \
+	--volume ./volumes/extractors:/resources/extractors \
+	vmangos-extractors:${VMANGOS_COMMIT_ID}
 
-# Stage 2: "run"
+# "run"
 # Docker environment for "running" a server
 
 # Compose environment for managing (build, run, remove) the server

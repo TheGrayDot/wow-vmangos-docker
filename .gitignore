@@ -1,6 +1,7 @@
 volumes/mysql/*
-volumes/resources/client_data/*
-volumes/resources/db/*
-volumes/resources/extractors/*
-volumes/resources/mangosd/*
-volumes/resources/realmd/*
+volumes/client_data/*
+volumes/client_files/*
+volumes/db/*
+volumes/extractors/*
+volumes/mangosd/*
+volumes/realmd/*

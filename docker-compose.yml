@@ -25,7 +25,7 @@ services:
       # MySQL init script to create databases and insert data
       - ./run/db/init.sh:/docker-entrypoint-initdb.d/init.sh
       # Read only volume of database dump files
-      - ./volumes/resources/db:/db:ro
+      - ./volumes/db:/db:ro
     networks:
       - backend
 
@@ -48,9 +48,9 @@ services:
       - 8085:8085
     volumes:
       # Copy over the mangosd binary
-      - ./volumes/resources/mangosd:/vmangos/bin
+      - ./volumes/mangosd:/vmangos/bin
       # Location of extracted client data (maps, mmaps etc.)
-      - ./volumes/resources/client_data:/vmangos/client_data/:ro
+      - ./volumes/client_data:/vmangos/client_data/:ro
     networks:
       - frontend
       - backend
@@ -74,7 +74,7 @@ services:
       - 3724:3724
     volumes:
       # Copy over the realmd binary
-      - ./volumes/resources/realmd:/vmangos/bin
+      - ./volumes/realmd:/vmangos/bin
     networks:
       - frontend
       - backend

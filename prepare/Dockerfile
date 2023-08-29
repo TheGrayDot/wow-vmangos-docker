@@ -51,11 +51,7 @@ RUN make install
 WORKDIR /vmangos/core/sql/migrations/
 RUN sh merge.sh
 
-# Copy scripts
+# Add resource copying script
 WORKDIR /vmangos
-COPY --chmod=755 ./extract_client_data.sh .
 COPY --chmod=755 ./copy_resources.sh .
-CMD bash ./copy_resources.sh
-
-# Keep the container running for troubleshooting
-# CMD tail -f /dev/null
+CMD ["bash", "copy_resources.sh"]

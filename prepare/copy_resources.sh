@@ -17,8 +17,7 @@ mkdir -p $TARGET_DIR_SQL
 
 # Copy extraction tools
 echo "[*] Copying extraction tools..."
-cp /vmangos/extract_client_data.sh "${TARGET_DIR_TOOLS}/extract_client_data.sh"
-extraction_tools=("ad" "MoveMapGen" "mapextractor" "vmap_assembler" "vmapextractor")
+extraction_tools=("MoveMapGen" "mapextractor" "vmap_assembler" "vmapextractor")
 for extraction_tool in "${extraction_tools[@]}"; do
     cp "${SOURCE_DIR_INSTALL}/bin/$extraction_tool" \
     "${TARGET_DIR_TOOLS}/$extraction_tool"
