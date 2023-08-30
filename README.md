@@ -65,3 +65,8 @@ A dedicated Docker Compose environment to:
 
 - Run the game database
 - Run the game server (`mangosd`) and login server (`realmd`)
+
+- Location: `./run`
+- What: Docker compose environment to run server
+- Run: `make run_build`
+- Check: Review Docker compose output
