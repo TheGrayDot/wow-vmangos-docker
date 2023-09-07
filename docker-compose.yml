@@ -13,6 +13,7 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
+      SERVER_IP: ${SERVER_IP}
     ports:
       - 3306:3306
     # Increase max packet size, as some queries are large
