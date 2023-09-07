@@ -73,11 +73,12 @@ A dedicated Docker Compose environment to:
 
 ## Opinionated Configuration
 
-This Docker environment is **really** opinionated. Some examples are:
+This project is **highly opinionated**. Some examples are:
 
 - Runs the game server, realm server and database on one system using Compose
 - Have to edit the `.env` file if you want to change configuration, but is very limited
 - Lots of hard-coded paths based on what I think is the best approach
+- Rolls a custom client data extraction script (e.g., vmaps, mmaps)
 
 ## Volumes
 

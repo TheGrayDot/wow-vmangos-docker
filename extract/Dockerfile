@@ -2,7 +2,7 @@ ARG VMANGOS_COMMIT_ID
 
 FROM vmangos-base:${VMANGOS_COMMIT_ID}
 
-RUN apt-get install -y \
+RUN apt-get update && apt-get install -y \
   python3 \
   && rm -rf /var/lib/apt/lists/*
 

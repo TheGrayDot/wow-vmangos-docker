@@ -65,13 +65,13 @@ class worker_thread(threading.Thread):
         subprocess.call(
             [
                 "./MoveMapGen",
-                self.map_id,
+                str(self.map_id),
                 "--silent",
                 "--configInputPath",
                 "config.json",
             ],
             startupinfo=None,
-            creationflags=0,
+            creationflags="0",
         )
 
 
