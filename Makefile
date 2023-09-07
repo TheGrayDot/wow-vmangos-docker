@@ -20,6 +20,10 @@ prepare_resources:
 	vmangos-resources:${VMANGOS_COMMIT_ID}
 
 prepare_resources_clean:
+	docker container stop vmangos-resources:${VMANGOS_COMMIT_ID}; \
+	docker image rm vmangos-resources:${VMANGOS_COMMIT_ID};
+
+prepare_resources_clean_volumes:
 	sudo rm -rf ./volumes/client_data/*; \
 	sudo rm -rf ./volumes/db/*; \
 	sudo rm -rf ./volumes/extractors/*; \
@@ -49,11 +53,14 @@ run_stop:
 	docker compose stop
 
 run_clean:
-	docker compose down
+	docker compose down; \
+	docker image rm vmangos-mangosd:${VMANGOS_COMMIT_ID}; \
+	docker image rm vmangos-realmd:${VMANGOS_COMMIT_ID}; \
+	docker image rm vmangos-db:${VMANGOS_COMMIT_ID};
 
 run_clean_volumes:
 	sudo rm -rf ./volumes/mysql
 
 # Simple shortcut to find the Docker IP address of the server
 run_dump_ip_address:
-	docker network inspect wow-vmangos-docker_frontend | grep -A3 "vmangos_realmd"
+	docker network inspect wow-vmangos-docker_frontend | grep -A3 "vmangos-realmd"

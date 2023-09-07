@@ -53,7 +53,7 @@ echo "[*] Loading world migrations..."
 mysql -u root -p$MYSQL_ROOT_PASSWORD mangos < /db/world_migrations.sql
 
 echo "[*] Setting realmd IP address..."
-mysql -u root -p$MYSQL_ROOT_PASSWORD realmd -e "INSERT INTO realmlist (id, address) values ('1', 'vmangos_realmd');"
+mysql -u root -p$MYSQL_ROOT_PASSWORD realmd -e "INSERT INTO realmlist (id, address) values ('1', 'vmangos-realmd');"
 
 echo "[*] Performing mysql_upgrade..."
 mysql_upgrade -u root -p$MYSQL_ROOT_PASSWORD

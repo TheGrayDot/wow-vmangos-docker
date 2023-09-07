@@ -1,6 +1,9 @@
 ARG VMANGOS_COMMIT_ID
+ARG VMANGOS_PATCH
 
 FROM vmangos-base:${VMANGOS_COMMIT_ID}
+
+ENV VMANGOS_PATCH VMANGOS_PATCH
 
 RUN apt-get update && apt-get install -y \
   python3 \

@@ -14,7 +14,7 @@ COPY ./mangosd.conf .
 
 # Start realmd using configuration file
 WORKDIR /vmangos/
-# CMD ./bin/mangosd -c ./etc/mangosd.conf
+CMD ./bin/mangosd -c ./etc/mangosd.conf
 
 # Keep the container running for troubleshooting
-CMD tail -f /dev/null
+# CMD tail -f /dev/null
