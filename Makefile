@@ -26,7 +26,7 @@ prepare_resources_clean:
 	sudo rm -rf ./volumes/mangosd/*; \
 	sudo rm -rf ./volumes/realmd/*;
 
-# Stage 2: "extract" client data
+# Stage 2: "extract" client data (OPTIONAL)
 extract_client_data:
 	docker build -t vmangos-extractors:${VMANGOS_COMMIT_ID} \
 	--build-arg VMANGOS_COMMIT_ID=${VMANGOS_COMMIT_ID} \
@@ -38,22 +38,18 @@ extract_client_data:
 	--volume ./volumes/extractors:/resources/extractors \
 	vmangos-extractors:${VMANGOS_COMMIT_ID}
 
-# "run"
-# Docker environment for "running" a server
-
-# Compose environment for managing (build, run, remove) the server
-# Creates three containers (db, game server and realm server)
+# Stage 3: "run" the server
 run_build:
-	docker compose --file docker-compose_run.yml up --build
+	docker compose up --build
 
 run_start:
-	docker compose --file docker-compose_run.yml up
+	docker compose up
 
 run_stop:
-	docker compose --file docker-compose_run.yml stop
+	docker compose stop
 
 run_clean:
-	docker compose --file docker-compose_run.yml down
+	docker compose down
 
 run_clean_volumes:
 	sudo rm -rf ./volumes/mysql
