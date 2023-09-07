@@ -19,6 +19,13 @@ prepare_resources:
 	--volume ./volumes/realmd:/resources/realmd \
 	vmangos-resources:${VMANGOS_COMMIT_ID}
 
+prepare_resources_clean:
+	sudo rm -rf ./volumes/client_data/*; \
+	sudo rm -rf ./volumes/db/*; \
+	sudo rm -rf ./volumes/extractors/*; \
+	sudo rm -rf ./volumes/mangosd/*; \
+	sudo rm -rf ./volumes/realmd/*;
+
 # Stage 2: "extract" client data
 extract_client_data:
 	docker build -t vmangos-extractors:${VMANGOS_COMMIT_ID} \

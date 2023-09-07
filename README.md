@@ -70,3 +70,25 @@ A dedicated Docker Compose environment to:
 - What: Docker compose environment to run server
 - Run: `make run_build`
 - Check: Review Docker compose output
+
+## Opinionated Configuration
+
+This Docker environment is **really** opinionated. Some examples are:
+
+- Runs the game server, realm server and database on one system using Compose
+- Have to edit the `.env` file if you want to change configuration, but is very limited
+- Lots of hard-coded paths based on what I think is the best approach
+
+## Volumes
+
+A selection of volumes are used in this project - all of which are stored under the `volumes` directory in the root of the project. The table below summarises these volumes, and their use.
+
+| Name | Use |
+|---|---|
+| `client_files` | The WoW client. For example, the vanilla 1.12.1 client. This needs to be copied into the folder if you want to extract client data. |
+| `client_data` | Where data extracted from the WoW client lives. This is essential for the game server to run, and is used by the `vmangos-mangosd` container. |
+| `db` | Database (MySQL) dumps provided with the vmangos project. These are extracted by the `extract` phase, and used by the `vmangos-db` container during the first build. |
+| `mysql` | Database (MySQL) files imported from the `db` volume. Basically, this is just the game database. This allows for persistent data storage. |
+| `extractors` | Client data extraction tools (e.g., vmap/mmap) are extracted and saved here from the `prepare` stage. If you choose to extract client data, these tools are used in the `vmangos-extractors` container. |
+| `mangosd` | The game server binary (e.g., `mangosd` binary). |
+| `realmd` | The realm binary (e.g., `realmd` binary). |
