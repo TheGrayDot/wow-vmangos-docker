@@ -27,7 +27,8 @@ mkdir ./vmaps
 
 # Extract mmaps
 echo "[*] Extract mmaps..."
-./MoveMapGen --silent --configInputPath config.json
+# ./MoveMapGen --silent --configInputPath config.json
+python3 mmap_threader.py
 
 # Copy required files
 echo "[*] Copying data..."
