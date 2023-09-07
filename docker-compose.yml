@@ -5,6 +5,9 @@ services:
   db:
     container_name: vmangos-db
     image: vmangos-db:${VMANGOS_COMMIT_ID}
+    build:
+      context: ./run/db
+      dockerfile: Dockerfile
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
