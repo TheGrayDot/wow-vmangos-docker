@@ -36,6 +36,10 @@ services:
   mangosd:
     container_name: vmangos-mangosd
     image: vmangos-mangosd:${VMANGOS_COMMIT_ID}
+    # Keep terminal open, as mangosd is interactive
+    # Will exit 0 and not run server without tty and stdin_open enabled
+    tty: true
+    stdin_open: true
     depends_on:
       db:
         condition: service_healthy
