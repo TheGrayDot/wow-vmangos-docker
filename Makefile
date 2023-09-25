@@ -20,12 +20,11 @@ prepare_resources:
 	vmangos-resources:${VMANGOS_COMMIT_ID}
 
 prepare_resources_clean:
-	docker container stop vmangos-resources:${VMANGOS_COMMIT_ID}; \
-	docker container rm vmangos-resources:${VMANGOS_COMMIT_ID}; \
+	docker container stop vmangos-resources; \
+	docker container rm vmangos-resources; \
 	docker image rm vmangos-resources:${VMANGOS_COMMIT_ID};
 
 prepare_resources_clean_volumes:
-	sudo rm -rf ./volumes/client_data/*; \
 	sudo rm -rf ./volumes/db/*; \
 	sudo rm -rf ./volumes/extractors/*; \
 	sudo rm -rf ./volumes/mangosd/*; \
@@ -45,6 +44,7 @@ extract_client_data:
 
 # Stage 3: "run" the server
 run_build:
+	./run/set_creds.sh; \
 	docker compose up --build
 
 run_start:

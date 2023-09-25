@@ -7,6 +7,11 @@ Docker Compose environment for running vmangos
 - Install the following:
 	- Docker with Compose plugin
 	- GNU make
+- Modify the environment variables:
+	- `MYSQL_ROOT_PASSWORD`
+	- `DB_USER`
+	- `DB_PASSWORD`
+	- `SERVER_IP`
 - Copy a WoW client to:
 	- `./volumes/client_files`
 - Create base image
@@ -16,7 +21,9 @@ Docker Compose environment for running vmangos
 - Extract client data:
 	- `make extract_client_data`
 - Build the vmangos server Docker environment
-	- `make run`
+	- `make run_build`
+- Restart the vmangos server Docker environment
+	- `make run_start`
 
 ## Stage 0: `base`
 
@@ -41,7 +48,7 @@ A Docker image to run and extract resources, which:
 - Run: `make prepare_resources`
 - Check: Review output, then check `./volumes` directory
 
-## Stage 2: `extract`
+## Stage 2: `extract` OPTIONAL
 
 A Docker image to extract data from client, which:
 
