@@ -3,25 +3,42 @@ version: 2
 updates:
 
   - package-ecosystem: docker
-    directory: /prepare/base
+    directory: /base
     schedule:
       interval: weekly
     open-pull-requests-limit: 0  # only security updates
+    assignees:
+      - "thomaslaurenson"
 
   - package-ecosystem: docker
-    directory: /prepare/resources
+    directory: /extract
     schedule:
       interval: weekly
     open-pull-requests-limit: 0  # only security updates
+    assignees:
+      - "thomaslaurenson"
+
+  - package-ecosystem: docker
+    directory: /prepare
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 0  # only security updates
+    assignees:
+      - "thomaslaurenson"
+
 
   - package-ecosystem: docker
     directory: /run/mangosd
     schedule:
       interval: weekly
     open-pull-requests-limit: 0  # only security updates
+    assignees:
+      - "thomaslaurenson"
 
   - package-ecosystem: docker
     directory: /run/realmd
     schedule:
       interval: weekly
     open-pull-requests-limit: 0  # only security updates
+    assignees:
+      - "thomaslaurenson"
