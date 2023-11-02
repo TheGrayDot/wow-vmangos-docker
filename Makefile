@@ -34,6 +34,7 @@ prepare_resources_clean_volumes:
 extract_client_data:
 	docker build -t vmangos-extractors:${VMANGOS_COMMIT_ID} \
 	--build-arg VMANGOS_COMMIT_ID=${VMANGOS_COMMIT_ID} \
+	--build-arg VMANGOS_PATCH=${VMANGOS_PATCH} \
 	./extract \
 	&& \
 	docker run --name vmangos-extractors \
@@ -45,7 +46,8 @@ extract_client_data:
 extract_client_data_clean:
 	docker container stop vmangos-extractors; \
 	docker container rm vmangos-extractors; \
-	docker image rm vmangos-extractors:${VMANGOS_COMMIT_ID};
+	docker image rm vmangos-extractors:${VMANGOS_COMMIT_ID}; \
+	sudo rm -rf ./volumes/client_data/*
 
 # Stage 3: "run" the server
 run_build:

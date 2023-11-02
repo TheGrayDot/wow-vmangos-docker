@@ -2,7 +2,6 @@
 
 import collections
 import multiprocessing
-import os
 import subprocess
 import time
 import threading
@@ -63,7 +62,7 @@ class worker_thread(threading.Thread):
         self.map_id = map_id
 
     def run(self):
-        subprocess.Popen(
+        subprocess.call(
             [
                 "./MoveMapGen",
                 str(self.map_id),
@@ -72,10 +71,6 @@ class worker_thread(threading.Thread):
                 "config.json",
             ],
             startupinfo=None,
-            shell=False,
-            stdout=None,
-            stderr=None,
-            preexec_fn=os.setpgrp,
         )
 
 
