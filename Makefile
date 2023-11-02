@@ -42,6 +42,11 @@ extract_client_data:
 	--volume ./volumes/extractors:/resources/extractors \
 	vmangos-extractors:${VMANGOS_COMMIT_ID}
 
+extract_client_data_clean:
+	docker container stop vmangos-extractors; \
+	docker container rm vmangos-extractors; \
+	docker image rm vmangos-extractors:${VMANGOS_COMMIT_ID};
+
 # Stage 3: "run" the server
 run_build:
 	./run/set_creds.sh; \
