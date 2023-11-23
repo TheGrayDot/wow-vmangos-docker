@@ -46,7 +46,9 @@ extract_client_data:
 extract_client_data_clean:
 	docker container stop vmangos-extractors; \
 	docker container rm vmangos-extractors; \
-	docker image rm vmangos-extractors:${VMANGOS_COMMIT_ID}; \
+	docker image rm vmangos-extractors:${VMANGOS_COMMIT_ID};
+
+extract_client_data_clean_volumes:
 	sudo rm -rf ./volumes/client_data/*
 
 # Stage 3: "run" the server
