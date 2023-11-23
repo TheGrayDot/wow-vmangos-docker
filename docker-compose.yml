@@ -22,7 +22,7 @@ services:
       # Custom healthcheck using file created by ./run/db/init.sh
       test: bash -c "[ -f /var/lib/mysql/healthy ]"
       interval: 5s
-      retries: 20
+      retries: 50
     volumes:
       # MySQL data volume for persistence
       - ./volumes/mysql:/var/lib/mysql

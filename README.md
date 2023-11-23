@@ -66,6 +66,12 @@ cp -r /media/external/World\ of\ Warcraft/* ./volumes/client_files/
 - Run: `make extract_client_data`
 - Check: Review output, then check `./volumes/client_data` directory
 
+Once data has been extracted from the client, it makes sense to create an archive of the extracted files - mainly because extraction can take a long time (especially the mmaps). In the root folder of this repository, execute the following command to make a `tar` archive.
+
+```
+tar czf ~/client_data.tar.gz ./volumes/client_data/
+```
+
 ## Stage 3: `run`
 
 A dedicated Docker Compose environment to:
@@ -77,6 +83,20 @@ A dedicated Docker Compose environment to:
 - What: Docker compose environment to run server
 - Run: `make run_build`
 - Check: Review Docker compose output
+
+If you want to access the mangos prompt, use the following command:
+
+```
+docker attach vmangos-mangosd
+```
+
+From here, you can create an account, or run any other commands, for example:
+
+```
+account create <username> <password>
+account set addon <username> <expansion-version>
+account set gmlevel <username> <level>
+```
 
 ## Opinionated Configuration
 

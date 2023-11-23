@@ -39,13 +39,16 @@ done
 cp "/vmangos/world_full_14_june_2021.sql" "${TARGET_DIR_SQL}/world_base.sql"
 cp "${SOURCE_DIR_SQL}/migrations/world_db_updates.sql" "${TARGET_DIR_SQL}/world_migrations.sql"
 
-
 # Copy mangosd files
 echo "[*] Copying mangosd files..."
 cp "${SOURCE_DIR_INSTALL}/bin/mangosd" "${TARGET_DIR_MANGOSD}/mangosd"
+# Uncomment line if you wish to copy a new mangosd conf file
+# Note - if you copy a new conf file, update *DIR values
 # cp "${SOURCE_DIR_INSTALL}/etc/mangosd.conf.dist" "${TARGET_DIR_MANGOSD}/mangosd.conf"
 
 # Copy realmd files
 echo "[*] Copying realmd files..."
 cp "${SOURCE_DIR_INSTALL}/bin/realmd" "${TARGET_DIR_REALMD}/realmd"
+# Uncomment line if you wish to copy a new realmd conf file
+# Note - if you copy a new conf file, update *DIR values
 # cp "${SOURCE_DIR_INSTALL}/etc/realmd.conf.dist" "${TARGET_DIR_REALMD}/realmd.conf"

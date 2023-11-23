@@ -31,7 +31,7 @@ python3 mmap_threader.py
 
 # Copy required files
 echo "[*] Copying data..."
-cp -r ./dbc "/resources/client_data/$VMANGOS_PATCH"
+cp -r ./dbc "/resources/client_data/$VMANGOS_PATCH/dbc/"
 cp -r ./maps /resources/client_data/
 cp -r ./vmaps /resources/client_data/
 cp -r ./mmaps /resources/client_data/
